@@ -17,8 +17,8 @@ static void RunWithOptions(Options opts)
         Console.WriteLine($"Getting Data from Csvs...");
         var repo = new Repo(opts.FolderPath);
         Console.WriteLine($"....Data retrieved from Csvs.");
-        Console.WriteLine($"Patients Over 18: {repo.PatientsOverEighteenByPostCode.Count}");
-        Console.WriteLine($"Patients Under 18: {repo.PatientsUnderEighteenByPostCode.Count}");
+        Console.WriteLine($"Patients Over 18: {repo.PatientsOverEighteenByPostCode.Values.Sum(list=>list.Count)}");
+        Console.WriteLine($"Patients Under 18: {repo.PatientsUnderEighteenByPostCode.Values.Sum(list => list.Count)}");
         Console.WriteLine($"Patients Data: {repo.DataRepository.Count}");
         Console.WriteLine($"Processing Data...");
         var dataProcessor = new DataProcessor();
