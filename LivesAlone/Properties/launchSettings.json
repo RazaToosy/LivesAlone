@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LivesAlone": {
+      "commandName": "Project",
+      "commandLineArgs": "-f \"C:\\Users\\razat\\OneDrive\\Desktop\\LonelinessFiles\""
+    }
+  }
+}
