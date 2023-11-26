@@ -14,9 +14,6 @@ namespace LivesAlone
         {
             var patientDataAddress = $"{patientData.HouseNameFlatNumber} {patientData.NumberAndStreet}";
 
-            var patientName = patientData.FamilyName;
-
-
             foreach (var patient in PatientsOverEighteenInSamePostCode)
             {
                 if (patientData.EMISNumber + patientData.OrganisationCode == patient.EMISNumber + patient.OrganisationCode) continue;
@@ -31,7 +28,53 @@ namespace LivesAlone
             return true;
         }
 
-        public bool CheckIfChildInTheHouse(PatientDataModel patientData, List<PatientModel> PatientsUnderEighteenInSamePostCode)
+        public PatientDataModel GetSpouseDetails(PatientDataModel patientData, List<PatientModel> PatientsOverEighteenInSamePostCode)
+        {
+            var patientDataAddress = $"{patientData.HouseNameFlatNumber} {patientData.NumberAndStreet}";
+            var patientCount = 0;
+            var spouseDetails = new PatientModel();
+
+            foreach (var patient in PatientsOverEighteenInSamePostCode)
+            {
+                if (patientData.EMISNumber + patientData.OrganisationCode == patient.EMISNumber + patient.OrganisationCode) continue;
+
+                var patientAddress = $"{patient.HouseNameFlatNumber} {patient.NumberAndStreet}";
+
+                if (patientAddress == patientDataAddress || IsAddressesSimilar(patientDataAddress, patientAddress))
+                {
+                    patientCount++;
+                    spouseDetails = patient;
+                }
+            }
+
+            if (patientCount == 1) return new PatientDataModel
+            {
+                PatientType ="DementiaCohabiting",
+                EMISNumber = spouseDetails.EMISNumber,
+                OrganisationCode = spouseDetails.OrganisationCode, 
+                NHSNumber = spouseDetails.NHSNumber,
+                GivenName = spouseDetails.GivenName,
+                FamilyName = spouseDetails.FamilyName,
+                DateOfBirth = spouseDetails.DateOfBirth,
+                Age = spouseDetails.Age,
+                Gender = spouseDetails.Gender,
+                HouseNameFlatNumber = spouseDetails.HouseNameFlatNumber,
+                NumberAndStreet = spouseDetails.NumberAndStreet,
+                Locality = spouseDetails.Locality,
+                Town = spouseDetails.Town,
+                County = spouseDetails.County,
+                Postcode = spouseDetails.Postcode,
+                UsualGPsFullName = spouseDetails.UsualGPsFullName,
+                MaritalStatus = spouseDetails.MaritalStatus,
+                EthnicOrigin = spouseDetails.EthnicOrigin
+            };
+
+            return null;
+        }
+
+
+
+            public bool CheckIfChildInTheHouse(PatientDataModel patientData, List<PatientModel> PatientsUnderEighteenInSamePostCode)
         {
             return true;
         }

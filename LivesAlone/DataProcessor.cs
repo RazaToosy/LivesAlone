@@ -29,8 +29,10 @@ namespace LivesAlone
                     switch (patientType.Key)
                     {
                         case "Dementia":
-                            //if (aloneController.CheckIfAlone(patient, repo.PatientsOverEighteenByPostCode[patient.Postcode]))
-                            //    alonePatients.Add(patient);
+                            if (aloneController.CheckIfAlone(patient, repo.PatientsOverEighteenByPostCode[patient.Postcode]))
+                                alonePatients.Add(patient);
+                            var spouseDetails = aloneController.GetSpouseDetails(patient, repo.PatientsOverEighteenByPostCode[patient.Postcode]);
+                            if (spouseDetails != null) alonePatients.Add(spouseDetails);
 
                             break;
                         case "Female20to35":

@@ -36,10 +36,10 @@ static void RunWithOptions(Options opts)
         foreach (var count in patientTypeCounts)
         {
             var populationCount = patientPopulationCounts.FirstOrDefault(p => p.PatientType == count.PatientType);
+            if (count.PatientType == "DementiaCohabiting") populationCount = new {PatientType = "DementiaCohabiting", Count = count.Count};
             var percentage = ((double)count.Count / populationCount.Count * 100).ToString("F2");
             Console.WriteLine($"Patients in: {count.PatientType} = {count.Count} / {(double)populationCount.Count} ({percentage}%)");
         }
-
         Console.WriteLine($"Patients Alone: {alonePatients.Count}");
         Console.WriteLine($"Total Patients: {repo.DataRepository.Count}");
         Console.WriteLine($"Percentage Potential Alone: {((double)alonePatients.Count / (double)repo.DataRepository.Count * 100):F2}%");
