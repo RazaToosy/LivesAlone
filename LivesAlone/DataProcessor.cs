@@ -33,9 +33,11 @@ namespace LivesAlone
                                 alonePatients.Add(patient);
                             var spouseDetails = aloneController.GetSpouseDetails(patient, repo.PatientsOverEighteenByPostCode[patient.Postcode]);
                             if (spouseDetails != null) alonePatients.Add(spouseDetails);
-
                             break;
                         case "Female20to35":
+                            if (!repo.PatientsUnderEighteenByPostCode.ContainsKey(patient.Postcode)) break;
+                            if (aloneController.IsSingleMother(patient, repo.PatientsUnderEighteenByPostCode[patient.Postcode], repo.PatientsOverEighteenByPostCode[patient.Postcode]))
+                                alonePatients.Add(patient);
                             break;
                         default:
                             if (aloneController.CheckIfAlone(patient, repo.PatientsOverEighteenByPostCode[patient.Postcode]))

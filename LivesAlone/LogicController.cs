@@ -28,6 +28,33 @@ namespace LivesAlone
             return true;
         }
 
+        public bool IsSingleMother(PatientDataModel patientData, List<PatientModel> PatientsUnderEighteenInSamePostCode, List<PatientModel> PatientsOverEighteenInSamePostCode)
+        {
+            var isAlone = CheckIfAlone(patientData, PatientsOverEighteenInSamePostCode);
+
+            if (isAlone)
+            {
+                var patientDataAddress = $"{patientData.HouseNameFlatNumber} {patientData.NumberAndStreet}";
+                var patientCount = 0;
+
+                foreach (var patient in PatientsUnderEighteenInSamePostCode)
+                {
+                    if (patientData.EMISNumber + patientData.OrganisationCode == patient.EMISNumber + patient.OrganisationCode) continue;
+
+                    var patientAddress = $"{patient.HouseNameFlatNumber} {patient.NumberAndStreet}";
+
+                    if (patientAddress == patientDataAddress || IsAddressesSimilar(patientDataAddress, patientAddress))
+                    {
+                        patientCount++;
+                    }
+                }
+
+                if (patientCount >= 1) return true;
+            }
+
+            return false;
+        }
+
         public PatientDataModel GetSpouseDetails(PatientDataModel patientData, List<PatientModel> PatientsOverEighteenInSamePostCode)
         {
             var patientDataAddress = $"{patientData.HouseNameFlatNumber} {patientData.NumberAndStreet}";
@@ -74,10 +101,6 @@ namespace LivesAlone
 
 
 
-            public bool CheckIfChildInTheHouse(PatientDataModel patientData, List<PatientModel> PatientsUnderEighteenInSamePostCode)
-        {
-            return true;
-        }
 
         private bool IsAddressesSimilar(string patientaddress, string addressesInRepo)
         {
